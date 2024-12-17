@@ -2,6 +2,7 @@ import {configureStore} from '@reduxjs/toolkit';
 import rootReducer from './root-reducers';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
 
 const persistConfig = {
   key: 'root',
@@ -22,6 +23,9 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+
 
 export const persistor = persistStore(store);
 export default store;
