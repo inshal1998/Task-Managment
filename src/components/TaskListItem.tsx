@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {Task} from '../../src/store/task-slice';
 import {Colors} from '../utils/constants';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface TaskListItemProps {
   task: Task;
@@ -54,22 +55,17 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
           <Text>Due: {new Date(item.dueDate).toLocaleDateString()}</Text>
         </View>
       )}
-      renderHiddenItem={({item}) => (
+      renderHiddenItem={({ item }) => (
         <View style={styles.hiddenItem}>
-          <TouchableOpacity
-            style={styles.completeButton}
-            onPress={() => onComplete(item._id)}>
-            <Text style={styles.actionText}>Complete</Text>
-          </TouchableOpacity>
           <TouchableOpacity
             style={styles.deleteButton}
             onPress={() => onDelete(item._id)}>
-            <Text style={styles.actionText}>Delete</Text>
+            <Ionicons name="trash" size={25} color="white" />
           </TouchableOpacity>
         </View>
       )}
       leftOpenValue={75}
-      rightOpenValue={-150}
+      rightOpenValue={-75} 
     />
   );
 };
@@ -88,20 +84,18 @@ const styles = StyleSheet.create({
   hiddenItem: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    marginRight:10,
     alignItems: 'center',
-    height: 80,
-  },
-  completeButton: {
-    backgroundColor: 'green',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 75,
+    height: "100%",
   },
   deleteButton: {
     backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
-    width: 75,
+    width: 50,
+    alignSelf:'center',
+    height:50,
+    borderRadius:100
   },
   actionText: {
     color: 'white',
