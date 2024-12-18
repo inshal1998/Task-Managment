@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    fontFamily: 'Poppins-Regular',
   },
   input: {
     height: 40,
@@ -155,6 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 15,
+    fontFamily: 'Poppins-Regular',
   },
   dropdownContainer: {
     marginBottom: 15,
@@ -163,6 +165,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderWidth: 1,
     borderRadius: 5,
+    fontFamily: 'Poppins-Regular',
   },
   dropdownList: {
     borderWidth: 1,

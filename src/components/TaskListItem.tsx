@@ -52,9 +52,9 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
       renderItem={({item}) => (
         <View style={[styles.item, setColor()]}>
           <Text style={styles.taskName}>{item.name}</Text>
-          <Text>{item.desc}</Text>
-          <Text>Status: {item.status}</Text>
-          <Text>Due: {new Date(item.dueDate).toLocaleDateString()}</Text>
+          <Text style={styles.textStyle}>{item.desc}</Text>
+          <Text style={styles.textStyle}>Priority: {item.priority}</Text>
+          <Text style={styles.textStyle}>Due: {new Date(item.dueDate).toLocaleDateString()}</Text>
         </View>
       )}
       renderHiddenItem={({item}) => (
@@ -89,6 +89,10 @@ const styles = StyleSheet.create({
   taskName: {
     fontWeight: 'bold',
     fontSize: 18,
+    fontFamily: 'Poppins-Regular',
+  },
+  textStyle:{
+    fontFamily: 'Poppins-Regular',
   },
   hiddenItem: {
     flexDirection: 'row',

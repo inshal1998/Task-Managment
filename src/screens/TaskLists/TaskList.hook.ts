@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTask, fetchTasks, setFilteredTasks } from '../../store/task-Slice';
+import { deleteTask, fetchTasks, setFilteredTasks, sortTasksByDate } from '../../store/task-Slice';
 import { RootState, AppDispatch } from '../../store/store';
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -16,6 +16,7 @@ export const useTaskList = () => {
   const [hasMoreTasks, setHasMoreTasks] = useState<boolean>(true);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const loadMoreTasks = () => {
     if (currentPage < totalPages && !isFetching) {
@@ -67,7 +68,21 @@ export const useTaskList = () => {
   }, [currentPage, totalPages]);
 
   const onFilterPress = () => {
-    console.log('Filter pressed');
+    setIsModalVisible(true);
+  };
+
+  const onModalClose = () => {
+    setIsModalVisible(false);
+  };
+
+  const onSortTasks = () => {
+    dispatch(sortTasksByDate()); 
+    onModalClose();
+  };
+
+  const onClearFilter = () => {
+    dispatch(setFilteredTasks(tasks));
+    onModalClose();
   };
 
   const onAddPress = () => {
@@ -90,5 +105,9 @@ export const useTaskList = () => {
     onAddPress,
     filteredTasks,
     setSearchQuery,
+    isModalVisible,
+    onModalClose,
+    onSortTasks,
+    onClearFilter,
   };
 };

@@ -1,7 +1,6 @@
-import {createSlice, createAsyncThunk,PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import {DEFAULT_API_CONFIG} from '../utils/api-config';
-import {Alert} from 'react-native';
+import { DEFAULT_API_CONFIG } from '../utils/api-config';
 
 export type Priority = 'High' | 'Medium' | 'Low';
 export type Status = 'Pending' | 'In Progress' | 'Completed';
@@ -37,12 +36,12 @@ const initialState: TaskState = {
 
 export const fetchTasks = createAsyncThunk(
   'tasks/fetchTasks',
-  async (page: number, {rejectWithValue}) => {
+  async (page: number, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${DEFAULT_API_CONFIG.base_url}/get?page=${page}&limit=10`,
+        `${DEFAULT_API_CONFIG.base_url}/get?page=${page}&limit=10`
       );
-      const {data, total, limit} = response.data;
+      const { data, total, limit } = response.data;
       const totalPages = Math.ceil(total / limit);
       return {
         data,
@@ -52,70 +51,60 @@ export const fetchTasks = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 export const deleteTask = createAsyncThunk(
   'tasks/deleteTask',
-  async (taskId: string, {rejectWithValue}) => {
+  async (taskId: string, { rejectWithValue }) => {
     try {
       await axios.delete(`${DEFAULT_API_CONFIG.base_url}/delete/${taskId}`);
       return taskId;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 export const createTask = createAsyncThunk(
   'tasks/createTask',
-  async (task: any, {rejectWithValue}) => {
+  async (task: any, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${DEFAULT_API_CONFIG.base_url}/create`,
-        task,
+        task
       );
-      console.log(JSON.stringify(response.data, undefined, 4), 'Response');
       return response.status;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 export const getTaskById = createAsyncThunk(
   'tasks/getTaskById',
-  async (taskId: string, {rejectWithValue}) => {
+  async (taskId: string, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${DEFAULT_API_CONFIG.base_url}/tasks/${taskId}`,
+        `${DEFAULT_API_CONFIG.base_url}/tasks/${taskId}`
       );
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  },
+  }
 );
 
 export const updateTask = createAsyncThunk(
   'tasks/updateTask',
   async (
     { id, updatedFields }: { id: string; updatedFields: Task },
-    { rejectWithValue },
+    { rejectWithValue }
   ) => {
     try {
-      console.log(
-        JSON.stringify({ id, updatedFields }, undefined, 4),
-        'Slice Record',
-      );
       const response = await axios.put(
         `${DEFAULT_API_CONFIG.base_url}/update/${id}`,
-        updatedFields,
-      );
-
-      console.log(
-        JSON.stringify(response, undefined, 4),
-        'Response',
+        updatedFields
       );
       return response.data;
     } catch (error: any) {
@@ -123,9 +112,8 @@ export const updateTask = createAsyncThunk(
         error.response?.data?.message || error.message || 'Unknown error occurred';
       return rejectWithValue(errorMessage);
     }
-  },
+  }
 );
-
 
 const taskSlice = createSlice({
   name: 'tasks',
@@ -149,10 +137,15 @@ const taskSlice = createSlice({
     setTotalPages(state, action: PayloadAction<number>) {
       state.totalPages = action.payload;
     },
+    sortTasksByDate(state) {
+      const sortedTasks = [...state.tasks];
+      sortedTasks.sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
+      state.filteredTasks = sortedTasks;
+    },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchTasks.pending, state => {
+      .addCase(fetchTasks.pending, (state) => {
         state.loading = true;
       })
       .addCase(fetchTasks.fulfilled, (state, action) => {
@@ -165,12 +158,10 @@ const taskSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-
       .addCase(deleteTask.fulfilled, (state, action) => {
-        state.tasks = state.tasks.filter(task => task._id !== action.payload);
+        state.tasks = state.tasks.filter((task) => task._id !== action.payload);
       })
-
-      .addCase(createTask.pending, state => {
+      .addCase(createTask.pending, (state) => {
         state.loading = true;
       })
       .addCase(createTask.fulfilled, (state, action) => {
@@ -180,8 +171,7 @@ const taskSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-
-      .addCase(getTaskById.pending, state => {
+      .addCase(getTaskById.pending, (state) => {
         state.loading = true;
         state.selectedTask = null;
       })
@@ -193,7 +183,6 @@ const taskSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-
       .addCase(updateTask.fulfilled, (state, action) => {
         const updatedTask = action.payload;
         const index = state.tasks.findIndex((task) => task._id === updatedTask._id);
@@ -201,7 +190,7 @@ const taskSlice = createSlice({
           state.tasks[index] = updatedTask;
         }
       })
-      .addCase(updateTask.pending, state => {
+      .addCase(updateTask.pending, (state) => {
         state.loading = true;
       })
       .addCase(updateTask.rejected, (state, action) => {
@@ -211,6 +200,14 @@ const taskSlice = createSlice({
   },
 });
 
-export const { setTasks, setFilteredTasks, setLoading, setError, setCurrentPage, setTotalPages } = taskSlice.actions;
+export const { 
+  setTasks, 
+  setFilteredTasks, 
+  setLoading, 
+  setError, 
+  setCurrentPage, 
+  setTotalPages, 
+  sortTasksByDate 
+} = taskSlice.actions;
 
 export default taskSlice.reducer;
