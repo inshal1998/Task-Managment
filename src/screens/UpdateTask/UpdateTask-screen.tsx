@@ -13,6 +13,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import {useUpdateTask} from './UpdateTask.hook';
 import {RootState} from '../../store/store';
 import {Colors} from '../../utils/constants';
+import {CustomButton} from '../../components';
 
 const UpdateTaskScreen: React.FC = () => {
   const route = useRoute();
@@ -124,17 +125,16 @@ const UpdateTaskScreen: React.FC = () => {
         onChangeText={text => setTaskDetails({...taskDetails, dueDate: text})}
       />
 
-      {loading ? (
-        <ActivityIndicator size="large" />
-      ) : (
-        <Button
-          title="Save Changes"
-          onPress={() => {
-            updateTaskDetails();
-            navigation.goBack();
-          }}
-        />
-      )}
+      <CustomButton
+        title="Save Changes"
+        onPress={()=>{
+          updateTaskDetails()
+          navigation.goBack()
+        }
+      }
+        isLoading={loading}
+        disabled={loading}
+      />
     </View>
   );
 };

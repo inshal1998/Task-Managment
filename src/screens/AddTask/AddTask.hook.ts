@@ -9,6 +9,7 @@ import { RootStackParamList } from '../../navigation/navigation-types';
 
 export const useAddTask = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const [isLoading, setisLoading] = useState(false)
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [name, setName] = useState<string>('');
   const [desc, setDesc] = useState<string>('');
@@ -44,7 +45,7 @@ export const useAddTask = () => {
       Alert.alert('Please fill in all required fields');
       return;
     }
-
+    setisLoading(true)
     const task = {
       name,
       desc,
@@ -58,6 +59,7 @@ export const useAddTask = () => {
     setDesc('')
     setPriority('Low')
     setStatus('Pending')
+    setisLoading(false)
     navigation.goBack()
   };
 
@@ -81,5 +83,6 @@ export const useAddTask = () => {
     handleSave,
     setOpenPriority,
     setOpenStatus,
+    isLoading
   };
 };

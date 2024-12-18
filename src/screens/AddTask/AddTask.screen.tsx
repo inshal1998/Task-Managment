@@ -5,6 +5,7 @@ import {useAddTask} from './AddTask.hook';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/store';
 import {Colors} from '../../utils/constants';
+import {CustomButton} from '../../components';
 
 const AddTaskScreen = () => {
   const {
@@ -23,6 +24,7 @@ const AddTaskScreen = () => {
     handleSave,
     setOpenPriority,
     setOpenStatus,
+    isLoading,
   } = useAddTask();
 
   const {theme} = useSelector((state: RootState) => state.themeReducer);
@@ -104,8 +106,12 @@ const AddTaskScreen = () => {
         ]}
         zIndex={999}
       />
-
-      <Button title="Save Task" onPress={handleSaveTask} color={buttonColor} />
+      <CustomButton
+        title="Add Task"
+        onPress={handleSaveTask}
+        isLoading={isLoading}
+        disabled={isLoading}
+      />
     </View>
   );
 };
