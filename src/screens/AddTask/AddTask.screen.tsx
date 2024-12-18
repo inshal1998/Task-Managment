@@ -38,27 +38,6 @@ const AddTaskScreen = () => {
   return (
     <View style={[styles.container, {backgroundColor}]}>
       <Text style={[styles.title, {color: textColor}]}>Add New Task</Text>
-
-      <TextInput
-        style={[styles.input, {borderColor: textColor, color: textColor}]}
-        placeholder="Task Name"
-        placeholderTextColor={
-          theme === 'dark' ? Colors.grey_ccc : Colors.grey_888
-        }
-        value={name}
-        onChangeText={setName}
-      />
-
-      <TextInput
-        style={[styles.input, {borderColor: textColor, color: textColor}]}
-        placeholder="Task Description"
-        placeholderTextColor={
-          theme === 'dark' ? Colors.grey_ccc : Colors.grey_888
-        }
-        value={desc}
-        onChangeText={setDesc}
-      />
-
       <DropDownPicker
         open={openPriority}
         value={priority}
@@ -81,6 +60,25 @@ const AddTaskScreen = () => {
           {backgroundColor: theme === 'dark' ? Colors.grey_444 : Colors.white},
         ]}
         zIndex={1000}
+      />
+      <TextInput
+        style={[styles.input, {borderColor: textColor, color: textColor}]}
+        placeholder="Task Name"
+        placeholderTextColor={
+          theme === 'dark' ? Colors.grey_ccc : Colors.grey_888
+        }
+        value={name}
+        onChangeText={setName}
+      />
+
+      <TextInput
+        style={[styles.input, {borderColor: textColor, color: textColor}]}
+        placeholder="Task Description"
+        placeholderTextColor={
+          theme === 'dark' ? Colors.grey_ccc : Colors.grey_888
+        }
+        value={desc}
+        onChangeText={setDesc}
       />
 
       <DropDownPicker
