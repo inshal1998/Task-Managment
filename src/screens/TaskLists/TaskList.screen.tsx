@@ -12,16 +12,17 @@ import {TaskListItem} from '../../components/TaskListItem';
 import {FloatingButton, Header} from '../../components';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/store';
+import { Colors } from '../../utils/constants';
 
 const TaskListScreen: React.FC = () => {
   const {theme} = useSelector((state: RootState) => state.themeReducer);
   const containerStyle = [
     styles.container,
-    {backgroundColor: theme === 'dark' ? '#121212' : '#ffffff'},
+    {backgroundColor: theme === 'dark' ? Colors.dark_grey_121212 : Colors.white},
   ];
 
   const textStyle = {
-    color: theme === 'dark' ? '#ffffff' : '#000000',
+    color: theme === 'dark' ? Colors.white :Colors.black,
   };
 
   const {
@@ -75,7 +76,7 @@ const TaskListScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor:Colors.white,
     padding: 20,
   },
   searchBar: {

@@ -1,15 +1,10 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useAddTask} from './AddTask.hook';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/store';
+import {Colors} from '../../utils/constants';
 
 const AddTaskScreen = () => {
   const {
@@ -36,9 +31,9 @@ const AddTaskScreen = () => {
     handleSave();
   };
 
-  const backgroundColor = theme === 'dark' ? '#333' : '#fff';
-  const textColor = theme === 'dark' ? '#fff' : '#000';
-  const buttonColor = theme === 'dark' ? '#6200ee' : '#6200ee';
+  const backgroundColor = theme === 'dark' ? Colors.grey_333 : Colors.white;
+  const textColor = theme === 'dark' ? Colors.white : Colors.black;
+  const buttonColor = theme === 'dark' ? Colors.purple : Colors.blue_007bff;
 
   return (
     <View style={[styles.container, {backgroundColor}]}>
@@ -47,7 +42,9 @@ const AddTaskScreen = () => {
       <TextInput
         style={[styles.input, {borderColor: textColor, color: textColor}]}
         placeholder="Task Name"
-        placeholderTextColor={theme === 'dark' ? '#ccc' : '#888'}
+        placeholderTextColor={
+          theme === 'dark' ? Colors.grey_ccc : Colors.grey_888
+        }
         value={name}
         onChangeText={setName}
       />
@@ -55,7 +52,9 @@ const AddTaskScreen = () => {
       <TextInput
         style={[styles.input, {borderColor: textColor, color: textColor}]}
         placeholder="Task Description"
-        placeholderTextColor={theme === 'dark' ? '#ccc' : '#888'}
+        placeholderTextColor={
+          theme === 'dark' ? Colors.grey_ccc : Colors.grey_888
+        }
         value={desc}
         onChangeText={setDesc}
       />
@@ -74,12 +73,12 @@ const AddTaskScreen = () => {
           styles.dropdown,
           {
             borderColor: textColor,
-            backgroundColor: theme === 'dark' ? '#444' : '#fff',
+            backgroundColor: theme === 'dark' ? Colors.grey_444 : Colors.white,
           },
         ]}
         dropDownContainerStyle={[
           styles.dropdownList,
-          {backgroundColor: theme === 'dark' ? '#444' : '#fff'},
+          {backgroundColor: theme === 'dark' ? Colors.grey_444 : Colors.white},
         ]}
         zIndex={1000}
       />
@@ -98,12 +97,12 @@ const AddTaskScreen = () => {
           styles.dropdown,
           {
             borderColor: textColor,
-            backgroundColor: theme === 'dark' ? '#444' : '#fff',
+            backgroundColor: theme === 'dark' ? Colors.grey_444 : Colors.white,
           },
         ]}
         dropDownContainerStyle={[
           styles.dropdownList,
-          {backgroundColor: theme === 'dark' ? '#444' : '#fff'},
+          {backgroundColor: theme === 'dark' ? Colors.grey_444 : Colors.white},
         ]}
         zIndex={999}
       />
@@ -140,8 +139,8 @@ const styles = StyleSheet.create({
     height: 40,
   },
   dropdownList: {
-    backgroundColor: '#fff',
-    borderColor: '#ccc',
+    backgroundColor: Colors.white,
+    borderColor: Colors.grey_333,
     borderWidth: 1,
     marginTop: 5,
   },

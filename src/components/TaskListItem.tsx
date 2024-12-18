@@ -35,8 +35,8 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
         borderColor = Colors.dark_yellow;
         break;
       default:
-        backgroundColor = '#f0f0f0';
-        borderColor = '#d0d0d0';
+        backgroundColor =Colors.light_grey_f0f0f0;
+        borderColor = Colors.grey_d0d0d0;
         break;
     }
 
