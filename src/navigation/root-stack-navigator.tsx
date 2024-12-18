@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {RootStackParamList} from './navigation-types';
 import TaskListScreen from '../screens/TaskLists/TaskList.screen';
 import AddTask from '../screens/AddTask/AddTask.screen';
+import { UpdateTask } from '../screens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -17,6 +18,7 @@ const RootStackNavigator = () => {
             })}>
             <Stack.Screen name="TaskLists" component={TaskListScreen} />
             <Stack.Screen name="AddTask" component={AddTask} />
+            <Stack.Screen name="UpdateTask" component={UpdateTask} />
           </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>

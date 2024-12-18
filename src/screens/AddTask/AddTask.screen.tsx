@@ -82,7 +82,6 @@ const AddTaskScreen = () => {
           {backgroundColor: theme === 'dark' ? '#444' : '#fff'},
         ]}
         zIndex={1000}
-        zIndexInverse={100}
       />
 
       <DropDownPicker
@@ -107,7 +106,6 @@ const AddTaskScreen = () => {
           {backgroundColor: theme === 'dark' ? '#444' : '#fff'},
         ]}
         zIndex={999}
-        zIndexInverse={100}
       />
 
       <Button title="Save Task" onPress={handleSaveTask} color={buttonColor} />

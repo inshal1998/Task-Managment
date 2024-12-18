@@ -4,17 +4,18 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import {Task} from '../../src/store/task-slice';
 import {Colors} from '../utils/constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/navigation-types';
 
 interface TaskListItemProps {
   task: Task;
   onDelete: (id: string) => void;
-  onComplete: (id: string) => void;
 }
 
 export const TaskListItem: React.FC<TaskListItemProps> = ({
   task,
   onDelete,
-  onComplete,
 }) => {
   const setColor = () => {
     let backgroundColor: string;
@@ -42,6 +43,7 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
     return {borderColor, backgroundColor};
   };
 
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <SwipeListView
       data={[task]}
@@ -55,8 +57,13 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
           <Text>Due: {new Date(item.dueDate).toLocaleDateString()}</Text>
         </View>
       )}
-      renderHiddenItem={({ item }) => (
+      renderHiddenItem={({item}) => (
         <View style={styles.hiddenItem}>
+          <TouchableOpacity
+            style={[styles.deleteButton, {backgroundColor: 'blue'}]}
+            onPress={() => navigation.navigate('UpdateTask', {task: item})}>
+            <Ionicons name="create" size={25} color="white" />
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.deleteButton}
             onPress={() => onDelete(item._id)}>
@@ -65,7 +72,9 @@ export const TaskListItem: React.FC<TaskListItemProps> = ({
         </View>
       )}
       leftOpenValue={75}
-      rightOpenValue={-75} 
+      rightOpenValue={-150}
+      stopLeftSwipe={75}
+      stopRightSwipe={-150}
     />
   );
 };
@@ -84,18 +93,19 @@ const styles = StyleSheet.create({
   hiddenItem: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginRight:10,
+    marginRight: 10,
     alignItems: 'center',
-    height: "100%",
+    height: '100%',
   },
   deleteButton: {
     backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
     width: 50,
-    alignSelf:'center',
-    height:50,
-    borderRadius:100
+    marginHorizontal: 3,
+    alignSelf: 'center',
+    height: 50,
+    borderRadius: 100,
   },
   actionText: {
     color: 'white',

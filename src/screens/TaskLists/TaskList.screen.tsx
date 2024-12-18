@@ -45,10 +45,10 @@ const TaskListScreen: React.FC = () => {
         keyExtractor={(item, index) => `${item._id}-${index}`}
         renderItem={({item}) => (
           <TaskListItem
-            task={item}
-            onDelete={onDelete}
-            onComplete={onComplete}
-          />
+          task={item}
+          onDelete={onDelete}
+          
+        />        
         )}
         onEndReached={loadMoreTasks}
         onEndReachedThreshold={0.5}

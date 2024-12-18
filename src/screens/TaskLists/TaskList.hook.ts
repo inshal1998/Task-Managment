@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTask, markComplete, fetchTasks } from '../../store/task-Slice'; 
+import { deleteTask, fetchTasks } from '../../store/task-Slice'; 
 import { RootState, AppDispatch } from '../../store/store'; 
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -41,7 +41,6 @@ export const useTaskList = () => {
   }, [currentPage, dispatch]);
 
   const onComplete = (taskId: string) => {
-    dispatch(markComplete(taskId));
   };
 
   const onDelete = (taskId: string) => {
@@ -75,7 +74,7 @@ export const useTaskList = () => {
     error,
     navigation,
     onFilterPress,
-    onAddPress
+    onAddPress,
   };
 };
 
