@@ -25,14 +25,11 @@ const TaskListScreen: React.FC = () => {
   };
 
   const {
-    tasks,
     currentPage,
     loadMoreTasks,
     loading,
     isFetching,
-    onComplete,
     onDelete,
-    navigation,
     onAddPress,
     onFilterPress,
     filteredTasks,
@@ -45,10 +42,10 @@ const TaskListScreen: React.FC = () => {
 
   return (
     <View style={containerStyle}>
-      <Header title="Task Management" onBackPress={() => navigation.goBack()} />
+      <Header title="Task Management" onBackPress={() => {}} />
       
       <TextInput
-        style={[styles.searchBar, {borderColor: textStyle.color}]}
+        style={[styles.searchBar, {borderColor: textStyle.color , color:textStyle.color}]}
         placeholder="Search tasks by name"
         placeholderTextColor={textStyle.color}
         onChangeText={handleSearch}
@@ -87,7 +84,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 15,
-    color:"#000"
   },
   emptyText: {
     textAlign: 'center',
