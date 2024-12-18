@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TouchableOpacity, Text, ActivityIndicator, View, StyleSheet } from 'react-native';
 import { Colors } from '../utils/constants';
 
@@ -27,7 +27,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({ title, onPress, isLoading, 
     >
       <View style={styles.buttonContent}>
         {isLoading ? (
-          <ActivityIndicator size="small" color="#fff" />
+          <ActivityIndicator size="small" color={Colors.white} />
         ) : (
           <Text style={styles.buttonText}>{title}</Text>
         )}
