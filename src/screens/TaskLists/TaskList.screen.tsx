@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
   ActivityIndicator,
   View,
   Text,
+  TextInput,
   StyleSheet,
 } from 'react-native';
 import {useTaskList} from './TaskList.hook';
@@ -34,21 +35,31 @@ const TaskListScreen: React.FC = () => {
     navigation,
     onAddPress,
     onFilterPress,
+    filteredTasks,
+    setSearchQuery
   } = useTaskList();
+
+  const handleSearch = (text: string) => {
+    setSearchQuery(text);
+  };
 
   return (
     <View style={containerStyle}>
       <Header title="Task Management" onBackPress={() => navigation.goBack()} />
+      
+      <TextInput
+        style={[styles.searchBar, {borderColor: textStyle.color}]}
+        placeholder="Search tasks by name"
+        placeholderTextColor={textStyle.color}
+        onChangeText={handleSearch}
+      />
+
       {loading && currentPage === 1 && <ActivityIndicator size="large" />}
       <FlatList
-        data={tasks}
+        data={filteredTasks}
         keyExtractor={(item, index) => `${item._id}-${index}`}
         renderItem={({item}) => (
-          <TaskListItem
-          task={item}
-          onDelete={onDelete}
-          
-        />        
+          <TaskListItem task={item} onDelete={onDelete} />
         )}
         onEndReached={loadMoreTasks}
         onEndReachedThreshold={0.5}
@@ -69,6 +80,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     padding: 20,
+  },
+  searchBar: {
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 15,
+    color:"#000"
   },
   emptyText: {
     textAlign: 'center',

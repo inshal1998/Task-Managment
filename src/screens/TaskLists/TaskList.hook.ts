@@ -1,20 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTask, fetchTasks } from '../../store/task-Slice'; 
-import { RootState, AppDispatch } from '../../store/store'; 
+import { deleteTask, fetchTasks, setFilteredTasks } from '../../store/task-Slice';
+import { RootState, AppDispatch } from '../../store/store';
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/navigation-types';
 
 export const useTaskList = () => {
-  const dispatch = useDispatch<AppDispatch>(); 
+  const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { tasks, currentPage, totalPages, loading, error } = useSelector(
+  const { tasks, currentPage, totalPages, loading, error, filteredTasks } = useSelector(
     (state: RootState) => state.tasks
   );
 
   const [hasMoreTasks, setHasMoreTasks] = useState<boolean>(true);
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   const loadMoreTasks = () => {
     if (currentPage < totalPages && !isFetching) {
@@ -40,7 +41,19 @@ export const useTaskList = () => {
     }
   }, [currentPage, dispatch]);
 
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = tasks.filter(task =>
+        task.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      dispatch(setFilteredTasks(filtered));
+    } else {
+      dispatch(setFilteredTasks(tasks));
+    }
+  }, [searchQuery, tasks, dispatch]);
+
   const onComplete = (taskId: string) => {
+    // Handle task completion
   };
 
   const onDelete = (taskId: string) => {
@@ -75,6 +88,7 @@ export const useTaskList = () => {
     navigation,
     onFilterPress,
     onAddPress,
+    filteredTasks,
+    setSearchQuery,
   };
 };
-

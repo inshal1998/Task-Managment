@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk,PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {DEFAULT_API_CONFIG} from '../utils/api-config';
 import {Alert} from 'react-native';
@@ -22,6 +22,7 @@ export interface TaskState {
   loading: boolean;
   error: string | null;
   selectedTask: Task | null;
+  filteredTasks: any[];
 }
 
 const initialState: TaskState = {
@@ -31,6 +32,7 @@ const initialState: TaskState = {
   loading: false,
   error: null,
   selectedTask: null,
+  filteredTasks: [],
 };
 
 export const fetchTasks = createAsyncThunk(
@@ -128,7 +130,26 @@ export const updateTask = createAsyncThunk(
 const taskSlice = createSlice({
   name: 'tasks',
   initialState,
-  reducers: {},
+  reducers: {
+    setTasks(state, action: PayloadAction<any[]>) {
+      state.tasks = action.payload;
+    },
+    setFilteredTasks(state, action: PayloadAction<any[]>) {
+      state.filteredTasks = action.payload;
+    },
+    setLoading(state, action: PayloadAction<boolean>) {
+      state.loading = action.payload;
+    },
+    setError(state, action: PayloadAction<string | null>) {
+      state.error = action.payload;
+    },
+    setCurrentPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
+    },
+    setTotalPages(state, action: PayloadAction<number>) {
+      state.totalPages = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchTasks.pending, state => {
@@ -189,5 +210,7 @@ const taskSlice = createSlice({
       });
   },
 });
+
+export const { setTasks, setFilteredTasks, setLoading, setError, setCurrentPage, setTotalPages } = taskSlice.actions;
 
 export default taskSlice.reducer;
